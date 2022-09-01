@@ -7,72 +7,62 @@ namespace TestProject
     public class Tests
     {
         [Test]
-        public void Test0()
+        public void ValidInputWithDuplicates()
         {
             int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
-            var range = Range.Range.SequenceGenerator(arr.Min(), arr.Max());
+            var range = Range.Utility.SequenceGenerator(arr.Min(), arr.Max());
             Assert.AreEqual(10, range.Length);
         }
 
         [Test]
-        public void Test1()
+        public void ValidInputsToCaptureCount()
         {
             int[] arr = { 4, 5 };
-            var range = Range.Range.RangeDetector(arr);
+            var range = Range.CurrentRange.RangeDetector(arr);
             Assert.AreEqual(1, range.Count);
         }
 
         [Test]
-        public void Test2()
+        public void ValidInputsToCaptureValuesCount()
         {
             int[] arr = { 4, 5 };
-            var range = Range.Range.RangeDetector(arr);
+            var range = Range.CurrentRange.RangeDetector(arr);
             Assert.AreEqual(2, range[0].Count);
         }
         [Test]
-        public void Test3()
+        public void InputsToCheckSequenceNumber()
         {
             int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
             int[] ExpectedArray = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-            var ActualArray = Range.Range.SequenceGenerator(arr.Min(), arr.Max());
+            var ActualArray = Range.Utility.SequenceGenerator(arr.Min(), arr.Max());
             Assert.AreEqual(ExpectedArray, ActualArray);
         }
 
         [Test]
-        public void Test4()
+        public void ValidInputsToCaptureWithCount2()
         {
             int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
-            var range = Range.Range.RangeDetector(arr);
-            Assert.AreEqual(2, range.Count);
-        }
-
-        [Test]
-        public void Test5()
-        {
-            int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
-            var range = Range.Range.RangeDetector(arr);
-            range.PrintRanges();
-            Assert.AreEqual(2, range.Count);
-        }
-
-        [Test]
-        public void Test6()
-        {
-            int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
-            var range = Range.Range.RangeDetector(arr);
+            var range = Range.CurrentRange.RangeDetector(arr);
             Assert.AreEqual(4, range[0].Count);
             Assert.AreEqual(3, range[1].Count);
         }
 
         [Test]
-        public void Test7()
+        public void ValidInputsToCaptureRange()
         {
             int[] arr = { 3, 3, 5, 4, 10, 11, 12 };
-            var range = Range.Range.RangeDetector(arr);
-            string str = (range[0].Min()).ToString() +"-"+ (range[0].Max()).ToString();
+            var range = Range.CurrentRange.RangeDetector(arr);
+            string str = (range[0].Min()).ToString() + "-" + (range[0].Max()).ToString();
             Assert.AreEqual("3-5", str);
             str = (range[1].Min()).ToString() + "-" + (range[1].Max()).ToString();
             Assert.AreEqual("10-12", str);
         }
+        [Test]
+        public void InputReturnsEmptyRange()
+        {
+            int[] arr = { 3, 8, 5, 10, 24, 15 };
+            Assert.AreEqual(false, Range.CurrentRange.RangeDetector(arr).Any());
+        }
+
     }
 }

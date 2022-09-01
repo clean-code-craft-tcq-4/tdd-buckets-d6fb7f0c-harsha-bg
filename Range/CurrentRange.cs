@@ -4,26 +4,14 @@ using System.Linq;
 
 namespace Range
 {
-    public static class Range
+    public static class CurrentRange
     {
-        /*  3, 3, 5, 4, 10, 11, 12
-             *  3, 3, 4, 5, 7, 8, 10, 11, 12
-             *  min = 3
-             *  3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-             *  
-             *  6, 9
-             *  step1: SortedArray = order array
-             *  step2: generate Sequence number by providing min and max value of SortedArray
-             *  Step3: 
-             * 
-             */
-
         public static List<List<int>> RangeDetector(int[] intarray)
         {
             intarray = intarray.OrderBy(x => x).ToArray();
-            var sequence = SequenceGenerator(intarray.Min(), intarray.Max());
+            var sequence = Utility.SequenceGenerator(intarray.Min(), intarray.Max());
             var NonIntersectedNumbers = sequence.Except(intarray).ToArray();
-            
+
             List<List<int>> lstRange = new List<List<int>>();
             List<int> lst;
             int arrayIndex = 0;
@@ -45,34 +33,16 @@ namespace Range
             }
 
             int cnt = 0;
-            for (int i = 0; i < lstRange.Count; i++)
-                cnt += lstRange[i].Count;
+            cnt = lstRange.Sum(x => x.Count);
 
             lst = new List<int>();
             for (int j = cnt; j < intarray.Length; j++)
                 lst.Add(intarray[j]);
+
             lstRange.Add(lst);
 
+            lstRange = lstRange.Where(x => x.Count != 1).Select(x => x).ToList();
             return lstRange;
-        }
-        public static int[] SequenceGenerator(int min, int max)
-        {
-            int[] intarray = new int[max - min + 1];
-            int index = 0;
-            for (int i = min; i <= max; i++)
-            {
-                intarray[index] = i;
-                index++;
-            }
-            return intarray;
-        }
-
-        public static void PrintRanges(this List<List<int>> range)
-        {
-            foreach (var data in range)
-            {
-                Console.WriteLine("{0}-{1},{2}", data.Min(), data.Max(), data.Count);
-            }
         }
     }
 }
